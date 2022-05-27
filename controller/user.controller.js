@@ -11,7 +11,7 @@ exports.login = (req, res) => {
     }).then((user) => {
 
         if (!user) {
-            res.status(500).send({ status: "failed", message: "login failed" })
+            res.status(500).send({ status: "fail", message: "login failed" })
 
         }
         else {
@@ -22,7 +22,7 @@ exports.login = (req, res) => {
         res.status(500).send({
             status: 'fail',
             message:
-                err.message || "Some error occurred while login in to  the account."
+                err.errors[0].message || "Some error occurred while login in to  the account."
         });
     });
 
@@ -33,6 +33,7 @@ exports.login = (req, res) => {
 exports.create = (req, res) => {
     if (!req.body.name) {
         res.status(400).send({
+            status: "fail",
             message: "Content can not be empty!"
         });
         return;
@@ -54,7 +55,7 @@ exports.create = (req, res) => {
             res.status(500).send({
                 status: 'fail',
                 message:
-                    err.message || "Some error occurred while creating the account."
+                err.errors[0].message|| "Some error occurred while creating the account."
             });
         });
 };
@@ -69,7 +70,7 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving users."
+                err.errors[0].message || "Some error occurred while retrieving users."
             });
         });
 };
@@ -157,7 +158,7 @@ exports.deleteAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while removing all User."
+                err.errors[0].message || "Some error occurred while removing all User."
             });
         });
 };

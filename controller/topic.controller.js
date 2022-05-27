@@ -1,48 +1,50 @@
 const db = require("../model");
-const Course = db.course;
+const Topics = db.topic;
 exports.create = (req, res) => {
    
 
-    // Create a Course 
-    const coursedata = {
-        name: req.body.name,
+    // Create a topic
+    const topicdata = {
+        topicname: req.body.topicname,
         description: req.body.description,
-        mentor:1
+        videolink: req.body.videolink ?  req.body.videolink : "https://www.youtube.com/watch?v=YkMVNdBZbc0",
+        documents:"http://www.africau.edu/images/default/sample.pdf",
+        courseid:1
     };
 
-    Course.create(coursedata)
+    Topics.create(topicdata)
         .then(data => {
             res.send({ status: "success", data: data });
         })
         .catch(err => {
-            console.log(err.errors[0].message)
             res.status(500).send({
                 status: 'fail',
-                message:err.errors[0].message || "Some error occurred while creating the course."
+                message:
+                    err.message || "Some error occurred while creating the topics."
             });
         });
 };
 
-// Retrieve all courses from the database.
+// Retrieve all topic from the database.
 exports.findAll = (req, res) => {
 
-    Course.findAll({ include: ["user"] })
+    Topics.findAll({ include: ["course"] })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.errors[0].message || "Some error occurred while retrieving course."
+                    err.message || "Some error occurred while retrieving topics."
             });
         });
 };
 
-// Find a single course with an id
+// Find a single topic with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Course.findByPk(id,{ include: ["user"] })
+    Topics.findByPk(id,{ include: ["course"] })
         .then(data => {
             if (data) {
                 res.send(data);
@@ -54,26 +56,26 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving course with id=" + id
+                message: "Error retrieving topic with id=" + id
             });
         });
 };
 
-// Update a course by the id in the request
+// Update a topic by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Course.update(req.body, {
+    Topics.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "course was updated successfully."
+                    message: "topic was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update course with id=${id}. Maybe user was not found or req.body is empty!`
+                    message: `Cannot update topic with id=${id}. Maybe user was not found or req.body is empty!`
                 });
             }
         })
@@ -88,13 +90,13 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Course.destroy({
+    Topics.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "course was deleted successfully!"
+                    message: "topic was deleted successfully!"
                 });
             } else {
                 res.send({
@@ -102,6 +104,7 @@ exports.delete = (req, res) => {
                 });
             }
         })
+
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete course with id=" + id
@@ -109,19 +112,19 @@ exports.delete = (req, res) => {
         });
 };
 
-// Delete all course from the database.
+// Delete all topics from the database.
 exports.deleteAll = (req, res) => {
-    Course.destroy({
+    Topics.destroy({
         where: {},
         truncate: false
     })
         .then(nums => {
-            res.send({ message: `${nums} course were deleted successfully!` });
+            res.send({ message: `${nums} topic were deleted successfully!` });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.errors[0].message || "Some error occurred while removing all course."
+                    err.message || "Some error occurred while removing all topic."
             });
         });
 };

@@ -1,14 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    const Topics = sequelize.define("topics", {
+    const Topic = sequelize.define("topic", {
         topicname: {
             type: Sequelize.STRING
         },
         description: {
             type: Sequelize.STRING
-        },
-        referencelink: {
-            type: Sequelize.STRING
-            
         },
         videolink:{
             type: Sequelize.STRING
@@ -22,5 +18,5 @@ module.exports = (sequelize, Sequelize) => {
        
     });
 
-    return Topics;
+    return Topic;
 };

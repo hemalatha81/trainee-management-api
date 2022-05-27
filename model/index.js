@@ -22,6 +22,11 @@ db.sequelize = sequelize;
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
 db.course = require("./course.model.js")(sequelize, Sequelize);
+db.topic = require("./topic.model.js")(sequelize, Sequelize);
+db.trainee = require("./trainee.model.js")(sequelize, Sequelize);
+
+db.topic.belongsTo(db.course,{foreignKey: 'courseid'})
+db.course.hasMany(db.topic, { foreignKey: 'courseid' });
 
 db.course.hasMany(db.user,{as: "user"});
 db.user.belongsTo(db.course,{
