@@ -162,4 +162,28 @@ exports.deleteAll = (req, res) => {
         });
 };
 
+exports.resetPassword = (req, res) =>{
+    const id = req.body.email;
+
+    User.update(req.body, {
+        where: { email: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Password has been updated successfully"
+                });
+            } else {
+                res.send({
+                    message: `Cannot update user with the new password. Maybe user was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Something went wrong for the user" + id
+            });
+        });
+}
+
 

@@ -22,6 +22,9 @@
   
     // Delete all users
     router.delete("/deleteall", users.deleteAll);
+
+    //Reset or update password
+    router.post("/resetPassword", user.resetPassword)
   
   module.exports=router
   
