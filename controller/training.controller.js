@@ -6,7 +6,7 @@ const Training = db.training;
 exports.create = (req, res) => {
     const trainingData = {
         name: req.body.name,
-        description: req.body.description
+       
     };
 
     Training.create(trainingData)
@@ -14,10 +14,10 @@ exports.create = (req, res) => {
             res.send({ status: "success", data: data });
         })
         .catch(err => {
-            console.log(err.errors[0].message)
+            console.log(err.message)
             res.status(500).send({
                 status: 'fail',
-                message: err.errors[0].message || "Some error occurred while creating the Training."
+                message: err.message || "Some error occurred while creating the Training."
             });
         });
 }

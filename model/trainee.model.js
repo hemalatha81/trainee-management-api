@@ -5,35 +5,20 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        trainee_id: {
+        user_id: {
             type: Sequelize.INTEGER
         },
-        trainee_name: {
+        user_name: {
             type: Sequelize.STRING,
-
-        },
-        course_id: {
-            type: Sequelize.INTEGER
 
         },
         progress: {
             type: Sequelize.STRING,
-        },
-
-        mentor_name: {
-            type: Sequelize.STRING,
-
-        },
-        mentorid: {
-            type: Sequelize.INTEGER,
-
         }
-
-
 
     }, {
         freezeTableName: true,
-       
+
     });
 
     return Trainee;

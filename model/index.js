@@ -26,6 +26,12 @@ db.topic = require("./topic.model.js")(sequelize, Sequelize);
 db.trainee = require("./trainee.model.js")(sequelize, Sequelize);
 db.training = require("./training.model.js")(sequelize, Sequelize);
 
+
+ db.trainee.belongsTo(db.training, { foreignKey: 'trainingid' })
+
+
+
+
 db.topic.belongsTo(db.course, { foreignKey: 'courseid' })
 db.course.hasMany(db.topic, { foreignKey: 'courseid' });
 
@@ -35,18 +41,13 @@ db.user.belongsTo(db.course, {
 
 })
 
-// db.tutorials.hasMany(db.comments, { as: "comments" });
-// db.comments.belongsTo(db.tutorials, {
-//   foreignKey: "tutorialId",
-//   as: "tutorial",
-// });
 db.role.hasMany(db.user, { as: "users" });
 db.user.belongsTo(db.role, {
   foreignKey: "roleId", as: "role"
 })
 
 
-db.course.belongsTo(db.training, { foreignKey: 'trainingid' })
-db.training.hasMany(db.course, { foreignKey: 'trainingid' });
+db.training.belongsTo(db.course, { foreignKey: 'courseid' })
+db.course.hasMany(db.training, { foreignKey: 'courseid' });
 
 module.exports = db;

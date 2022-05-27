@@ -13,6 +13,8 @@ const db = require("./model");
  app.use("/api/users",require("./routes/user.route"));
  app.use("/api/course",require("./routes/course.route"));
  app.use("/api/topic",require("./routes/topic.route"));
+ app.use("/api/trainee",require("./routes/trainee.route"));
+ app.use("/api/training",require("./routes/training.route"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
