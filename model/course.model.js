@@ -13,11 +13,15 @@ module.exports = (sequelize, Sequelize) => {
         description: {
             type: Sequelize.STRING,
 
-        }
+        },
+        mentorId:{
+            type:Sequelize.INTEGER
+          }
       
 
     }, {
         freezeTableName: true,
+        indexes: [{ unique: true, fields: ['name'] }]
        
     });
 

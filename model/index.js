@@ -21,8 +21,13 @@ db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
+db.course = require("./course.model.js")(sequelize, Sequelize);
 
+db.course.hasMany(db.user,{as: "user"});
+db.user.belongsTo(db.course,{
+  foreignKey: "mentorid", as:"mentor"
 
+})
 
 // db.tutorials.hasMany(db.comments, { as: "comments" });
 // db.comments.belongsTo(db.tutorials, {
