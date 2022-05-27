@@ -1,9 +1,5 @@
 const db = require("../model");
 const Course = db.course;
-
-
-
-
 exports.create = (req, res) => {
    
 
@@ -11,6 +7,7 @@ exports.create = (req, res) => {
     const coursedata = {
         name: req.body.name,
         description: req.body.description,
+        mentor:1
     };
 
     Course.create(coursedata)
@@ -29,7 +26,7 @@ exports.create = (req, res) => {
 // Retrieve all courses from the database.
 exports.findAll = (req, res) => {
 
-    Course.findAll({ include: ["role"] })
+    Course.findAll({ include: ["user"] })
         .then(data => {
             res.send(data);
         })
@@ -45,7 +42,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Course.findByPk(id, { include: ["user"] })
+    Course.findByPk(id,{ include: ["user"] })
         .then(data => {
             if (data) {
                 res.send(data);

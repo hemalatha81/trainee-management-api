@@ -14,9 +14,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
 
         },
-        mentorId:{
-            type:Sequelize.INTEGER
-          }
+       
       
 
     }, {
