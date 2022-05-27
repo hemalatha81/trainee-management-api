@@ -14,8 +14,8 @@ exports.login = (req, res) => {
             res.status(500).send({ status: "failed", message: "login failed" })
 
         }
-        else{
-            res.send({status:"success",message:"successfull login"})
+        else {
+            res.send({ status: "success", message: "successfull login" })
         }
 
     }).catch(err => {
@@ -162,28 +162,50 @@ exports.deleteAll = (req, res) => {
         });
 };
 
-exports.resetPassword = (req, res) =>{
+exports.resetPassword = (req, res) => {
     const id = req.body.email;
 
-    User.update(req.body, {
-        where: { email: id }
+    User.findOne({
+        where: {
+            email: req.body.email,
+            password: req.body.oldPassword
+        }
+    }).then((user) => {
+
+        if (!user) {
+            res.status(500).send({ status: "failed", message: "update failed" })
+
+        }
+        else {
+            // Create a User Accoount 
+            const userdata = {
+                password: req.body.password
+            };
+
+            User.update(userdata, {
+                where: { email: id }
+            })
+                .then(num => {
+                    if (num == 1) {
+                        res.send({
+                            message: "Password has been updated successfully"
+                        });
+                    } else {
+                        res.send({
+                            message: `Cannot update user with the new password. Maybe user was not found or req.body is empty!`
+                        });
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: "Something went wrong for the user" + id
+                    });
+                });
+        }
+
     })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Password has been updated successfully"
-                });
-            } else {
-                res.send({
-                    message: `Cannot update user with the new password. Maybe user was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Something went wrong for the user" + id
-            });
-        });
+
+
 }
 
 
