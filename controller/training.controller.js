@@ -1,7 +1,9 @@
 const db = require("../model");
 const Training = db.training;
+
+
+// Create a training 
 exports.create = (req, res) => {
-    // Create a training 
     const trainingData = {
         name: req.body.name,
         description: req.body.description
@@ -19,3 +21,39 @@ exports.create = (req, res) => {
             });
         });
 }
+
+// Retrieve all trainings from the database.
+exports.findAll = (req, res) => {
+
+    Training.findAll({ include: ["course"] })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.errors[0].message || "Some error occurred while retrieving training."
+            });
+        });
+};
+
+// Find a single training with an id
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+
+    Training.findByPk(id,{ include: ["course"] })
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find training with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving training with id=" + id
+            });
+        });
+};
