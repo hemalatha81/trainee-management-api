@@ -8,6 +8,10 @@ module.exports = (sequelize, Sequelize) => {
         role: {
             type: Sequelize.STRING,
             unique: true,
+        },
+        roleid:{
+            type: Sequelize.INTEGER,
+            
         }
 
     }, {

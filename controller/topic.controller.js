@@ -9,15 +9,16 @@ exports.create = (req, res) => {
         description: req.body.description,
         videolink: req.body.videolink ?  req.body.videolink : "https://www.youtube.com/watch?v=YkMVNdBZbc0",
         documents:"http://www.africau.edu/images/default/sample.pdf",
-        courseid:1
+        courseid:req.body.courseid
     };
 
     Topics.create(topicdata)
         .then(data => {
+            status:"success",
             res.send({ status: "success", data: data });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message:
                     err.message || "Some error occurred while creating the topics."
@@ -33,7 +34,7 @@ exports.findAll = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({ status:"success",
                 message:
                     err.message || "Some error occurred while retrieving topics."
             });
@@ -47,15 +48,15 @@ exports.findOne = (req, res) => {
     Topics.findByPk(id,{ include: ["course"] })
         .then(data => {
             if (data) {
-                res.send(data);
+                res.send({status:"success" ,data:data});
             } else {
-                res.status(404).send({
-                    message: `Cannot find course with id=${id}.`
+                res.status(200).send({ status:"fail",
+                    message: `Cannot find topic with id=${id}.`
                 });
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({status:"fail",
                 message: "Error retrieving topic with id=" + id
             });
         });
@@ -80,7 +81,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Error updating course with id=" + id
             });
         });
@@ -106,7 +107,7 @@ exports.delete = (req, res) => {
         })
 
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Could not delete course with id=" + id
             });
         });
@@ -122,7 +123,7 @@ exports.deleteAll = (req, res) => {
             res.send({ message: `${nums} topic were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message:
                     err.message || "Some error occurred while removing all topic."
             });

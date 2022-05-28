@@ -3,15 +3,16 @@ const User = db.user;
 
 exports.login = (req, res) => {
 
+    console.log(req.body, 'this is req body')
     User.findOne({
         where: {
             name: req.body.name,
             password: req.body.password
         }
     }).then((user) => {
-
+        console.log(user, 'this is the user')
         if (!user) {
-            res.status(500).send({ status: "fail", message: "login failed" })
+            res.status(200).send({ status: "fail", message: "login failed" })
 
         }
         else {
@@ -19,10 +20,11 @@ exports.login = (req, res) => {
         }
 
     }).catch(err => {
-        res.status(500).send({
+        res.status(200).send({
             status: 'fail',
             message:
-                err.message || "Some error occurred while login in to  the account."
+                err.message || "Some error occurred while login in to  the account.",
+            data: err
         });
     });
 
@@ -46,7 +48,7 @@ exports.create = (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        roleid: req.body.email == "bhaskar@divami.com" ? 3 : 1
+       
     };
 
     User.create(userdata)
@@ -54,7 +56,7 @@ exports.create = (req, res) => {
             res.send({ status: "success", data: data });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message:
                     err.message || "Some error occurred while creating the account."
@@ -70,7 +72,7 @@ exports.findAll = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message:
                     err.message || "Some error occurred while retrieving users."
             });
@@ -92,7 +94,7 @@ exports.findOne = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Error retrieving user with id=" + id
             });
         });
@@ -117,7 +119,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Error updating user with id=" + id
             });
         });
@@ -142,7 +144,7 @@ exports.delete = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Could not delete User with id=" + id
             });
         });
@@ -158,7 +160,7 @@ exports.deleteAll = (req, res) => {
             res.send({ message: `${nums} User were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message:
                     err.errors[0].message || "Some error occurred while removing all User."
             });
@@ -176,7 +178,7 @@ exports.resetPassword = (req, res) => {
     }).then((user) => {
 
         if (!user) {
-            res.status(500).send({ status: "failed", message: "update failed" })
+            res.status(200).send({ status: "failed", message: "update failed" })
 
         }
         else if (user) {
@@ -201,7 +203,7 @@ exports.resetPassword = (req, res) => {
                     }
                 })
                 .catch(err => {
-                    res.status(500).send({
+                    res.status(200).send({
                         message: "Something went wrong for the user" + id
                     });
                 });
