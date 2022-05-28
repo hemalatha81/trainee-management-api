@@ -28,7 +28,11 @@ exports.assigncourse = (req, res) => {
 
 exports.getassigncourse = (req, res) => {
 
-
+    // let options = {
+    //     where: {
+    //       trainingid: req.body.trainingid
+    //     }
+    //   };
     Trainingcourse.findAll({ include: ["course"] })
         .then(data => {
             //res.send({ status: "success", message:"succefully  assigned course to training" });
