@@ -1,12 +1,54 @@
+const { course } = require("../model");
 const db = require("../model");
 const Training = db.training;
+
+const Trainingcourse = db.training_course;
+
+exports.assigncourse = (req, res) => {
+    const trainingData = {
+        trainingid: req.body.trainingid,
+        name: req.body.name,
+        courseid: req.body.courseid
+
+    };
+
+    Trainingcourse.create(trainingData)
+        .then(data => {
+            res.send({ status: "success", message: "succefully  assigned course to training" });
+        })
+        .catch(err => {
+            console.log(err.message)
+            res.status(500).send({
+                status: 'fail',
+                message: err.message || "Some error occurred while assigning the course to the Training."
+            });
+        });
+}
+
+
+exports.getassigncourse = (req, res) => {
+
+
+    Trainingcourse.findAll({ include: ["course"] })
+        .then(data => {
+            //res.send({ status: "success", message:"succefully  assigned course to training" });
+            res.send(data);
+        })
+        .catch(err => {
+            console.log(err.message)
+            res.status(500).send({
+                status: 'fail',
+                message: err.message || "Some error occurred while assigning the course to the Training."
+            });
+        });
+}
 
 
 // Create a training 
 exports.create = (req, res) => {
     const trainingData = {
         name: req.body.name,
-       
+
     };
 
     Training.create(trainingData)
@@ -25,7 +67,7 @@ exports.create = (req, res) => {
 // Retrieve all trainings from the database.
 exports.findAll = (req, res) => {
 
-    Training.findAll({ include: ["course"] })
+    Training.findAll()
         .then(data => {
             res.send(data);
         })
@@ -41,7 +83,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Training.findByPk(id,{ include: ["course"] })
+    Training.findByPk(id, { include: ["course"] })
         .then(data => {
             if (data) {
                 res.send(data);

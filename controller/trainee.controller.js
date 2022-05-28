@@ -5,10 +5,10 @@ exports.create = (req, res) => {
 
     // Create a Trainee 
     const Traineedata = {
-         user_id:1,
+         user_id: req.body.userid,
          user_name: req.body.userName,
          progress:req.body.progress,
-         trainingid:1
+         trainingid:req.body.trainingid
     };
 
     Trainee.create(Traineedata)
@@ -27,14 +27,14 @@ exports.create = (req, res) => {
 // Retrieve all Trainees from the database.
 exports.findAll = (req, res) => {
 
-    Trainee.findAll({ include: ["user"] })
+    Trainee.findAll({ include: ["training"] })
         .then(data => {
-            res.send(data);
+            res.send({status:"success",data:data});
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message:
-                    err.errors[0].message || "Some error occurred while retrieving Trainee."
+                    err.message || "Some error occurred while retrieving Trainee."
             });
         });
 };
@@ -43,18 +43,18 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Trainee.findByPk(id,{ include: ["user"] })
+    Trainee.findByPk(id,{ include: ["training"] })
         .then(data => {
             if (data) {
-                res.send(data);
+                res.send({status:"success",data:data});
             } else {
-                res.status(404).send({
+                res.status(404).send({ status:"fail",
                     message: `Cannot find Trainee with id=${id}.`
                 });
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message: "Error retrieving Trainee with id=" + id
             });
         });
@@ -70,16 +70,17 @@ exports.update = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
+                    status:"success",
                     message: "Trainee was updated successfully."
                 });
             } else {
-                res.send({
+                res.send({ status:"fail",
                     message: `Cannot update Trainee with id=${id}. Maybe user was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message: "Error updating Trainee with id=" + id
             });
         });
@@ -94,17 +95,17 @@ exports.delete = (req, res) => {
     })
         .then(num => {
             if (num == 1) {
-                res.send({
+                res.send({ status:"success",
                     message: "Trainee was deleted successfully!"
                 });
             } else {
-                res.send({
+                res.send({ status:"fail",
                     message: `Cannot delete Trainee with id=${id}. Maybe Trainee was not found!`
                 });
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({status:"fail",
                 message: "Could not delete Trainee with id=" + id
             });
         });
@@ -117,12 +118,12 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
         .then(nums => {
-            res.send({ message: `${nums} Trainee were deleted successfully!` });
+            res.send({ status:"success", message: `${nums} Trainee were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message:
-                    err.errors[0].message || "Some error occurred while removing all Trainee."
+                    err.message || "Some error occurred while removing all Trainee."
             });
         });
 };

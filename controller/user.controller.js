@@ -22,7 +22,7 @@ exports.login = (req, res) => {
         res.status(500).send({
             status: 'fail',
             message:
-                err.errors[0].message || "Some error occurred while login in to  the account."
+                err.message || "Some error occurred while login in to  the account."
         });
     });
 
@@ -40,11 +40,13 @@ exports.create = (req, res) => {
     }
 
     // Create a User Accoount 
+
+
     const userdata = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        roleid: 1
+        roleid: req.body.email == "bhaskar@divami.com" ? 3 : 1
     };
 
     User.create(userdata)
@@ -55,7 +57,7 @@ exports.create = (req, res) => {
             res.status(500).send({
                 status: 'fail',
                 message:
-                err.errors[0].message|| "Some error occurred while creating the account."
+                    err.message || "Some error occurred while creating the account."
             });
         });
 };
@@ -70,7 +72,7 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                err.errors[0].message || "Some error occurred while retrieving users."
+                    err.message || "Some error occurred while retrieving users."
             });
         });
 };
@@ -158,7 +160,7 @@ exports.deleteAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                err.errors[0].message || "Some error occurred while removing all User."
+                    err.errors[0].message || "Some error occurred while removing all User."
             });
         });
 };
@@ -177,7 +179,7 @@ exports.resetPassword = (req, res) => {
             res.status(500).send({ status: "failed", message: "update failed" })
 
         }
-        else {
+        else if (user) {
             // Create a User Accoount 
             const userdata = {
                 password: req.body.password
@@ -187,6 +189,7 @@ exports.resetPassword = (req, res) => {
                 where: { email: id }
             })
                 .then(num => {
+                    console.log("status------", num)
                     if (num == 1) {
                         res.send({
                             message: "Password has been updated successfully"

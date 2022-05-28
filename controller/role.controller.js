@@ -41,9 +41,9 @@ exports.findOne = (req, res) => {
     Role.findByPk(id)
       .then(data => {
         if (data) {
-          res.send(data);
+          res.send({ status:"success",data:data});
         } else {
-          res.status(404).send({
+          res.status(404).send({ status:"fail",
             message: `Cannot find role with id=${id}.`
           });
         }
@@ -64,17 +64,17 @@ exports.findOne = (req, res) => {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.send({status:"success",
             message: "role was updated successfully."
           });
         } else {
-          res.send({
+          res.send({status:"fail",
             message: `Cannot update role with id=${id}. Maybe role was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).send({ status:"fail",
           message: "Error updating role with id=" + id
         });
       });
@@ -90,17 +90,17 @@ exports.delete = (req, res) => {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.send({status:"success",
             message: "Role was deleted successfully!"
           });
         } else {
-          res.send({
+          res.send({status:"fail",
             message: `Cannot delete Role with id=${id}. Maybe Role was not found!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).send({ status:"fail",
           message: "Could not delete Role with id=" + id
         });
       });

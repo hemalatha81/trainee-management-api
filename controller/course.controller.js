@@ -12,13 +12,13 @@ exports.create = (req, res) => {
 
     Course.create(coursedata)
         .then(data => {
-            res.send({ status: "success", data: data });
+            res.send({ status: "success", message:"succefull", data: data });
         })
         .catch(err => {
-            console.log(err.errors[0].message)
+            console.log(err.message)
             res.status(500).send({
                 status: 'fail',
-                message:err.errors[0].message || "Some error occurred while creating the course."
+                message:err.message || "Some error occurred while creating the course."
             });
         });
 };
@@ -26,14 +26,14 @@ exports.create = (req, res) => {
 // Retrieve all courses from the database.
 exports.findAll = (req, res) => {
 
-    Course.findAll({ include: ["user"] })
+    Course.findAll()
         .then(data => {
-            res.send(data);
+            res.send({ status: "success", message:"succefull", data: data });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.errors[0].message || "Some error occurred while retrieving course."
+                    err.message || "Some error occurred while retrieving course."
             });
         });
 };
@@ -42,10 +42,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Course.findByPk(id,{ include: ["user"] })
+    Course.findByPk(id)
         .then(data => {
             if (data) {
-                res.send(data);
+                res.send({ status: "success", message:"succefull", data: data });
             } else {
                 res.status(404).send({
                     message: `Cannot find course with id=${id}.`
@@ -68,7 +68,7 @@ exports.update = (req, res) => {
     })
         .then(num => {
             if (num == 1) {
-                res.send({
+                res.send({status:"success",
                     message: "course was updated successfully."
                 });
             } else {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message: "Error updating course with id=" + id
             });
         });
@@ -116,12 +116,12 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
         .then(nums => {
-            res.send({ message: `${nums} course were deleted successfully!` });
+            res.send({ status:"success" ,message: `${nums} course were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(500).send({ status:"fail",
                 message:
-                    err.errors[0].message || "Some error occurred while removing all course."
+                    err.message || "Some error occurred while removing all course."
             });
         });
 };
