@@ -16,7 +16,7 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message:err.message || "Some error occurred while creating the course."
             });
@@ -31,7 +31,7 @@ exports.findAll = (req, res) => {
             res.send({ status: "success", message:"succefull", data: data });
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message:
                     err.message || "Some error occurred while retrieving course."
             });
@@ -53,7 +53,7 @@ exports.findOne = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Error retrieving course with id=" + id
             });
         });
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message: "Error updating course with id=" + id
             });
         });
@@ -103,7 +103,7 @@ exports.delete = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Could not delete course with id=" + id
             });
         });
@@ -119,7 +119,7 @@ exports.deleteAll = (req, res) => {
             res.send({ status:"success" ,message: `${nums} course were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message:
                     err.message || "Some error occurred while removing all course."
             });

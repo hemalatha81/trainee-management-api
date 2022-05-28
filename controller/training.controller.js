@@ -18,7 +18,7 @@ exports.assigncourse = (req, res) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message: err.message || "Some error occurred while assigning the course to the Training."
             });
@@ -40,7 +40,7 @@ exports.getassigncourse = (req, res) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message: err.message || "Some error occurred while assigning the course to the Training."
             });
@@ -61,7 +61,7 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message: err.message || "Some error occurred while creating the Training."
             });
@@ -76,7 +76,7 @@ exports.findAll = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message:
                     err.errors[0].message || "Some error occurred while retrieving training."
             });
@@ -98,7 +98,7 @@ exports.findOne = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(200).send({
                 message: "Error retrieving training with id=" + id
             });
         });

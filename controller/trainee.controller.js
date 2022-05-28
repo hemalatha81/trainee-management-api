@@ -17,7 +17,7 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.status(500).send({
+            res.status(200).send({
                 status: 'fail',
                 message:err.message || "Some error occurred while creating the Trainee."
             });
@@ -32,7 +32,7 @@ exports.findAll = (req, res) => {
             res.send({status:"success",data:data});
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message:
                     err.message || "Some error occurred while retrieving Trainee."
             });
@@ -54,7 +54,7 @@ exports.findOne = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message: "Error retrieving Trainee with id=" + id
             });
         });
@@ -80,7 +80,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message: "Error updating Trainee with id=" + id
             });
         });
@@ -105,7 +105,7 @@ exports.delete = (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).send({status:"fail",
+            res.status(200).send({status:"fail",
                 message: "Could not delete Trainee with id=" + id
             });
         });
@@ -121,7 +121,7 @@ exports.deleteAll = (req, res) => {
             res.send({ status:"success", message: `${nums} Trainee were deleted successfully!` });
         })
         .catch(err => {
-            res.status(500).send({ status:"fail",
+            res.status(200).send({ status:"fail",
                 message:
                     err.message || "Some error occurred while removing all Trainee."
             });

@@ -1,5 +1,6 @@
 const db = require("../model");
 const User = db.user;
+const Role = db.role;
 
 exports.login = (req, res) => {
 
@@ -48,12 +49,13 @@ exports.create = (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-       
+        roleId:req.body.email =="bhaskar@divami" ? 2 : 1
     };
 
     User.create(userdata)
-        .then(data => {
-            res.send({ status: "success", data: data });
+        .then(user => {
+            
+            res.send({ status: "success", data: user });
         })
         .catch(err => {
             res.status(200).send({
